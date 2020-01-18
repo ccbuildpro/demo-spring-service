@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.potatoday.demo.spring.service.mapper.passport.UserMapper">
+    <resultMap id="BaseResultMap" type="com.potatoday.demo.spring.service.domain.user.UserDO">
+        <id column="id" jdbcType="BIGINT" property="uid"/>
+        <result column="account" jdbcType="BIGINT" property="account"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="data_status" jdbcType="INTEGER" property="dataStatus"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="modified_by" jdbcType="INTEGER" property="modifiedBy"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, account, password,  data_status,  gmt_create, modified_by,gmt_modified
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_core
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_core
+        where account = #{account,jdbcType=VARCHAR} and data_status=0;
+    </select>
+    <insert id="insertSelective" parameterType="com.potatoday.demo.spring.service.domain.user.UserDO">
+        insert into user_core
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                id,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+
+            <if test="dataStatus != null">
+                data_status,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="modifiedBy != null">
+                modified_by,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid,jdbcType=BIGINT},
+            </if>
+            <if test="account != null">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+
+            <if test="dataStatus != null">
+                #{dataStatus,jdbcType=INTEGER},
+            </if>
+
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifiedBy != null">
+                #{modifiedBy,jdbcType=INTEGER},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.potatoday.demo.spring.service.domain.user.UserDO">
+        update user_core
+        <set>
+            <if test="account != null">
+                account = #{resourceId,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{resourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="dataStatus != null">
+                data_status = #{dataStatus,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifiedBy != null">
+                modified_by = #{modifiedBy,jdbcType=INTEGER},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{uid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.potatoday.demo.spring.service.domain.user.UserDO">
+    update user_core
+    set account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      data_status = #{dataStatus,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      modified_by = #{modifiedBy,jdbcType=INTEGER},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{uid,jdbcType=BIGINT}
+  </update>
+
+    <update id="deleteById" parameterType="java.lang.Long">
+        UPDATE user_core SET data_status=4
+        WHERE id=#{uid,jdbcType=BIGINT} AND data_status=0
+  </update>
+
+
+</mapper>

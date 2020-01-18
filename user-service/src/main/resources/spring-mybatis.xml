@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <!-- <context:property-placeholder location="classpath:application.properties"/> -->
+    <!-- yqn_item -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${mysql.driver}"/>
+        <property name="url" value="${mysql.user.url}"/>
+        <property name="username" value="${mysql.user.username}"/>
+        <property name="password" value="${mysql.user.password}"/>
+        <property name="initialSize" value="${initialSize}"/>
+        <property name="maxActive" value="${maxActive}"/>
+        <property name="minIdle" value="${minIdle}"/>
+        <property name="maxWait" value="${maxWait}"/>
+        <property name="filters" value="stat"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--mapping.xml 文件 -->
+        <property name="mapperLocations" value="classpath:mapper/**/*.xml"/>
+<!--        <property name="configLocation" value="classpath:mybatis-config.xml"/>-->
+        <property name="plugins">
+            <array>
+                <!--    <bean id="mybatisInterceptor" class="com.yqn.lib.logging.mybatis.SQLExecInterceptor"/>-->
+            </array>
+        </property>
+    </bean>
+
+    <!-- mapper接口所在包名 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.potatoday.demo.spring.service.mapper.*"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+</beans>
