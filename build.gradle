@@ -4,10 +4,10 @@ plugins {
 	id 'java'
 }
 ext {
-	springBootVersion = '2.2.2.RELEASE'
+	springBootVersion = '2.2.4.RELEASE'
 	springCloudVersion = '2.2.1.RELEASE'
-	springDataVersion = '2.2.3.RELEASE'
-	springFrameworkVersion = '5.2.2.RELEASE'
+	springDataVersion = '2.2.4.RELEASE'
+	springFrameworkVersion = '5.2.3.RELEASE'
 }
 group = 'com.potatoday.demo'
 version = '0.0.1-SNAPSHOT'
